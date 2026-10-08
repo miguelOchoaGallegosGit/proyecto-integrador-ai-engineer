@@ -7,52 +7,52 @@
       "learning_rate": 0.15,
       "l2_regularization": 0.0
     },
-    "f1_macro_busqueda_cv": 0.874,
-    "f1_macro_cv_train": 0.876,
-    "f1_macro_holdout": 0.805,
+    "f1_macro_busqueda_cv": 0.893,
+    "f1_macro_cv_train": 0.893,
+    "f1_macro_holdout": 0.832,
     "reporte_holdout": {
       "Bajo": {
-        "precision": 0.9666666666666667,
-        "recall": 0.928,
-        "f1-score": 0.9469387755102041,
+        "precision": 0.96,
+        "recall": 0.96,
+        "f1-score": 0.96,
         "support": 125.0
       },
       "Medio": {
-        "precision": 0.6938775510204082,
+        "precision": 0.7555555555555555,
         "recall": 0.8717948717948718,
-        "f1-score": 0.7727272727272727,
+        "f1-score": 0.8095238095238095,
         "support": 39.0
       },
       "Alto": {
-        "precision": 0.8888888888888888,
+        "precision": 1.0,
         "recall": 0.5714285714285714,
-        "f1-score": 0.6956521739130435,
+        "f1-score": 0.7272727272727273,
         "support": 14.0
       },
-      "accuracy": 0.8876404494382022,
+      "accuracy": 0.9101123595505618,
       "macro avg": {
-        "precision": 0.8498110355253212,
-        "recall": 0.7904078144078145,
-        "f1-score": 0.8051060740501734,
+        "precision": 0.9051851851851852,
+        "recall": 0.8010744810744811,
+        "f1-score": 0.8322655122655123,
         "support": 178.0
       },
       "weighted avg": {
-        "precision": 0.9007809116155825,
-        "recall": 0.8876404494382022,
-        "f1-score": 0.8890047247748412,
+        "precision": 0.9183520599250936,
+        "recall": 0.9101123595505618,
+        "f1-score": 0.908726105355319,
         "support": 178.0
       }
     },
     "matriz_confusion_holdout": [
       [
-        116,
-        9,
+        120,
+        5,
         0
       ],
       [
-        4,
+        5,
         34,
-        1
+        0
       ],
       [
         0,
@@ -61,52 +61,48 @@
       ]
     ],
     "importancias_permutacion": {
-      "DuracionMaximaMin": 0.1514,
-      "PctSesionesChasing": 0.1497,
-      "CoinInPorHora": 0.1119,
-      "PctSesionesLargas": 0.094,
-      "ApuestaMaxima": 0.0909,
-      "VolatilidadResultado": 0.0842,
-      "DuracionPromedioMin": 0.0004,
-      "ApuestaMediaPromedio": -0.0032,
-      "PerdidasAcumuladas": -0.0116,
-      "PctJuegoMadrugada": -0.024
+      "PctSesionesChasing": 0.2017,
+      "DuracionMaximaMin": 0.1547,
+      "ApuestaMaxima": 0.1476,
+      "CoinInPorHora": 0.1413,
+      "PctSesionesLargas": 0.1383,
+      "VolatilidadResultado": 0.1245,
+      "DuracionPromedioMin": 0.0426,
+      "ApuestaMediaPromedio": 0.0267,
+      "PctJuegoMadrugada": 0.0167,
+      "PerdidasAcumuladas": 0.0134
     }
   },
   "respuesta_v1": {
     "tasa_positivos": 0.623,
     "mejores_hiperparametros": {
-      "min_samples_leaf": 20,
-      "max_iter": 150,
+      "min_samples_leaf": 30,
+      "max_iter": 200,
       "max_depth": 3,
-      "learning_rate": 0.05,
+      "learning_rate": 0.1,
       "l2_regularization": 0.1
     },
-    "pr_auc_busqueda_cv": 0.67,
-    "roc_auc": 0.638,
-    "pr_auc": 0.709,
-    "brier": 0.223,
-    "roc_auc_baseline_logistica": 0.531,
-    "pr_auc_baseline_logistica": 0.642,
-    "lift_top_decil": 1.26,
+    "pr_auc_busqueda_cv": 0.671,
+    "roc_auc": 0.653,
+    "pr_auc": 0.705,
+    "brier": 0.224,
+    "roc_auc_baseline_logistica": 0.535,
+    "pr_auc_baseline_logistica": 0.641,
+    "lift_top_decil": 1.24,
     "curva_calibracion": {
       "prob_predicha": [
-        0.482,
-        0.581,
-        0.622,
-        0.637,
-        0.649,
-        0.668,
-        0.728
+        0.472,
+        0.596,
+        0.621,
+        0.689,
+        0.778
       ],
       "frac_positivos_real": [
-        0.316,
-        0.567,
-        0.642,
-        0.765,
-        0.632,
-        0.688,
-        0.786
+        0.39,
+        0.556,
+        0.698,
+        0.771,
+        0.75
       ]
     }
   },
@@ -117,45 +113,45 @@
     "filas_entrenamiento": 4902,
     "filas_prueba": 1634,
     "respuesta": {
-      "tasa_positivos": 0.649,
-      "pr_auc": 0.704,
-      "brier": 0.225,
+      "tasa_positivos": 0.656,
+      "pr_auc": 0.71,
+      "brier": 0.222,
       "lift_top_decil": 1.17,
-      "roc_auc": 0.571
+      "roc_auc": 0.576
     },
     "respuesta_por_tipo": {
       "alta": {
         "tasa_positivos": 0.705,
-        "pr_auc": 0.773,
-        "brier": 0.206,
-        "lift_top_decil": 1.18,
-        "roc_auc": 0.619
+        "pr_auc": 0.769,
+        "brier": 0.203,
+        "lift_top_decil": 1.14,
+        "roc_auc": 0.621
       },
       "baja": {
-        "tasa_positivos": 0.642,
-        "pr_auc": 0.655,
-        "brier": 0.231,
-        "lift_top_decil": 1.04,
-        "roc_auc": 0.517
+        "tasa_positivos": 0.652,
+        "pr_auc": 0.669,
+        "brier": 0.229,
+        "lift_top_decil": 1.16,
+        "roc_auc": 0.511
       },
       "control": {
-        "tasa_positivos": 0.606,
-        "pr_auc": 0.654,
-        "brier": 0.237,
-        "lift_top_decil": 1.17,
-        "roc_auc": 0.553
+        "tasa_positivos": 0.611,
+        "pr_auc": 0.682,
+        "brier": 0.234,
+        "lift_top_decil": 1.33,
+        "roc_auc": 0.582
       },
       "media": {
-        "tasa_positivos": 0.678,
-        "pr_auc": 0.762,
-        "brier": 0.213,
-        "lift_top_decil": 1.09,
-        "roc_auc": 0.624
+        "tasa_positivos": 0.69,
+        "pr_auc": 0.744,
+        "brier": 0.211,
+        "lift_top_decil": 1.08,
+        "roc_auc": 0.593
       }
     },
     "valor_incremental": {
-      "mae": 7.903,
-      "r2": 0.864
+      "mae": 8.263,
+      "r2": 0.846
     }
   },
   "simulacion_nbo": {
@@ -167,23 +163,23 @@
     "resultado_por_tipo": {
       "alta": {
         "exposiciones": 1242,
-        "respuestas": 873,
-        "tasa_respuesta": 0.7029
+        "respuestas": 871,
+        "tasa_respuesta": 0.7013
       },
       "baja": {
         "exposiciones": 2026,
-        "respuestas": 1299,
-        "tasa_respuesta": 0.6412
+        "respuestas": 1318,
+        "tasa_respuesta": 0.6505
       },
       "control": {
         "exposiciones": 2026,
-        "respuestas": 1271,
-        "tasa_respuesta": 0.6273
+        "respuestas": 1268,
+        "tasa_respuesta": 0.6259
       },
       "media": {
         "exposiciones": 1242,
-        "respuestas": 847,
-        "tasa_respuesta": 0.682
+        "respuestas": 848,
+        "tasa_respuesta": 0.6828
       }
     }
   }

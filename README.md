@@ -27,9 +27,6 @@ asignación por reglas actual.
 
 ## Arquitectura
 
-Estado contrastado con el código y orden de implementación:
-[qué está aplicado y qué falta](docs/estado_arquitectura.md).
-
 ```mermaid
 flowchart LR
     subgraph Fuente["1 · Fuente de datos"]
@@ -126,6 +123,35 @@ streamlit run src/casino_ia/app/streamlit_app.py
 Si no hay conexión a SQL Server, el pipeline usa como *fallback* el CSV de
 `data/raw/` y las vistas se replican en pandas.
 
+## Interfaz React y API administrativa
+
+La interfaz React consume una API FastAPI que reutiliza los modelos, features y
+guardrails existentes. Streamlit se conserva como demo independiente. Esta
+implementación es para uso administrativo local: la API se enlaza a `127.0.0.1`
+y no incluye autenticación para exponerla en una red.
+
+Si aún no existen los modelos en `models_store/`, genera primero los artefactos
+con `python scripts/train_models.py`. Luego inicia cada proceso en una terminal
+distinta, desde la raíz del repositorio.
+
+**Terminal 1 — API**
+
+```powershell
+.\.venv312\Scripts\Activate.ps1
+uvicorn casino_ia.api.main:app --app-dir src --host 127.0.0.1 --port 8000
+```
+
+**Terminal 2 — React**
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Abre `http://localhost:5173/`. La documentación interactiva de la API está en
+`http://127.0.0.1:8000/docs`.
+
 ## Datos
 
 `data/raw/playersession_ficticio_100k.csv` — 100 000 sesiones simuladas, 888
@@ -169,3 +195,29 @@ El sistema **no debe incentivar el juego problemático**. Los clientes clasifica
 como de riesgo alto se excluyen de las campañas de incentivo y se derivan al
 protocolo de juego responsable. La capa de IA generativa aplica *guardrails* que
 impiden recomendar mayor estímulo de juego a esos clientes.
+
+## localhost version py
+.\.venv312\Scripts\Activate.ps1
+python scripts/run_eda.py
+python scripts/train_models.py
+python scripts/run_allocation.py --presupuesto 15000
+
+python -m streamlit run src\casino_ia\app\streamlit_app.py
+
+# localhost version react
+.\.venv312\Scripts\Activate.ps1
+python scripts/train_models.py
+uvicorn casino_ia.api.main:app --app-dir src --host 127.0.0.1 --port 8000
+
+cd frontend
+npm install
+npm run dev -- --host 127.0.0.1
+
+# localhost version react 2
+.\.venv312\Scripts\Activate.ps1
+python scripts/train_models.py
+# fast api
+uvicorn casino_ia.api.main:app --app-dir src --host 127.0.0.1 --port 8000
+# react web
+cd frontend
+npm run dev

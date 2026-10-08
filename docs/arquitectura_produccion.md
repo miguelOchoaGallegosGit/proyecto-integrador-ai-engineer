@@ -1,9 +1,5 @@
 # Arquitectura de producción
 
-> **Diseño objetivo, no despliegue completado.** Consulta el
-> [estado de implementación y pendientes](estado_arquitectura.md), contrastado
-> con el código local el 1 de octubre de 2026.
-
 El documento [`arquitectura.md`](arquitectura.md) describe el **prototipo**
 (lo que corre hoy en una laptop, con Streamlit y SQL Server local). Este
 documento describe cómo se vería el mismo sistema en un **entorno real de
@@ -112,11 +108,6 @@ a la API real — se puede probar y demostrar sin depender de un bot desplegado
 
 ## 7. El chatbot: un único motor, tres puntos de entrada
 
-Actualmente web y Telegram comparten la clase `AsistentePoliticas`, que
-consulta documentos con TF-IDF. Exponerla como servicio independiente e
-incorporar datos de cartera e índice vectorial son pasos pendientes.
-El esquema siguiente muestra el objetivo de producción.
-
 No son tres chatbots — es **un solo servicio de Chat (RAG + LLM)** con tres
 formas de llegar a él:
 
@@ -137,19 +128,17 @@ formas de llegar a él:
   al cambiar entre "Cartera" y "Cliente"**.
 - **Telegram**: mismo motor, vía `telegram_bot.procesar_actualizacion`.
 - **Operador de marketing**: usa el mismo widget o el mismo bot para
-  preguntas sobre políticas. Las consultas de cartera (por ejemplo, cuántos
-  clientes VIP están en riesgo medio o qué se ofreció a un cliente) requieren
-  una integración de datos y permisos todavía pendiente; el RAG actual solo
-  recupera documentos Markdown.
+  preguntas genéricas sobre uno o varios clientes ("¿cuántos clientes VIP
+  están en riesgo medio?", "¿qué le ofrecimos al cliente 900123 la semana
+  pasada?") — el RAG se extiende con un resumen tabular de la cartera además
+  de los documentos de política (ver [`arquitectura.md`](arquitectura.md#28-chatbot-rag-para-el-analista--genairagpy)).
 
 ## 8. Cómo se mide la respuesta del cliente
 
 Esto es lo que permite reemplazar, con el tiempo, las campañas
 **semi-sintéticas** de `simular_historico_campanas()` por datos reales —
-mediante una etapa de preparación aún pendiente. La tabla de resultados
-**no tiene el esquema completo** que consume `ModeloRespuestaNBO.fit()`:
-faltan las features observadas al enviar la oferta y la medición de
-`ValorIncremental` (el registro actual guarda `ValorGenerado`).
+sin cambiar el resto del pipeline, porque la tabla de resultados usa **el
+mismo esquema de columnas** que ya consume `ModeloRespuestaNBO.fit()`.
 
 Implementado en
 [`src/casino_ia/metrics/respuesta_real.py`](../src/casino_ia/metrics/respuesta_real.py):
@@ -183,10 +172,9 @@ en producción):
 
 Con volumen suficiente (recomendado: mínimo ~30 respuestas por celda
 canal × tipo de recompensa para que la tasa sea estadísticamente estable),
-se podrá construir un dataset real que reemplace a
-`simular_historico_campanas()`. Hoy `scripts/train_models.py` sigue usando
-campañas simuladas; la preparación del dataset real y el reentrenamiento
-periódico no están implementados.
+esta tabla reemplaza a `simular_historico_campanas()` y el modelo NBO se
+reentrena con el patrón de conducta real de los clientes, no con la afinidad
+simulada.
 
 ## 9. Observabilidad
 
@@ -206,9 +194,8 @@ periódico no están implementados.
   Vault**, nunca hardcodeadas ni en `.env` en producción.
 - Cifrado en tránsito (HTTPS/TLS en todos los canales) y en reposo (SQL,
   Blob).
-- El webhook de Telegram deberá validar un secreto (`TELEGRAM_WEBHOOK_SECRET`)
-  para confirmar el origen de la llamada. La variable está definida, pero el
-  endpoint y su validación todavía no están implementados.
+- El webhook de Telegram valida un secreto (`TELEGRAM_WEBHOOK_SECRET`) para
+  confirmar que la llamada viene de Telegram y no de un tercero.
 - El guardrail de juego responsable (riesgo Alto → cero ofertas) se aplica
   en el optimizador, antes de que cualquier canal (web o Telegram) tenga
   oportunidad de notificar — no es una regla de la interfaz, es una regla del
